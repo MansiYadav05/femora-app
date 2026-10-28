@@ -1,0 +1,6 @@
+{
+  "name": "Femora - Discreet Organic Period Care & Cramp Relief",
+  "description": "Femora offers organic, skin-friendly sanitary pads, menstrual cups, heating patches, cramp roll-ons, and herbal relief kits in India with 100% discreet packaging and fast dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
