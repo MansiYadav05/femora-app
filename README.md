@@ -28,6 +28,16 @@ Any email and password works for authentication. To access the **Admin Panel**:
 - **Password:** `AnyPassword123` (or click the "Admin Login" demo button on `/login`)
 - **Regular Customer:** Any other email (e.g., `pooja.sharma@example.com`)
 
+## Deploying to Vercel
+
+Import the repository into Vercel and use the detected Vite settings:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Install command: `npm install`
+
+The included `vercel.json` sends app routes to `index.html`, so refreshing or opening a nested route directly works. No additional Vercel package is required. If connecting a real API, set `VITE_API_URL` and `VITE_USE_MOCK=false` in the Vercel project's environment variables before deploying.
+
 ---
 
 ## 🔄 Switching Between Mock & Real API
