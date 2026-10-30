@@ -23,10 +23,10 @@ export const authService = {
       const email = credentials.email.trim().toLowerCase();
       const isAdmin = email === "admin@femora.test";
       const user: User = {
-        id: isAdmin ? "usr-admin-1" : "usr-pooja-1",
-        name: isAdmin ? "Femora Administrator" : "Pooja Sharma",
-        email: credentials.email,
-        phone: isAdmin ? "+91 99999 00000" : "+91 98765 43210",
+        id: `usr-${Date.now()}`,
+        name: isAdmin ? "Femora Administrator" : "Customer",
+        email: credentials.email.trim(),
+        phone: "",
         role: isAdmin ? "admin" : "customer",
       };
       const token = `mock-jwt-token-${isAdmin ? "admin" : "cust"}-${Date.now()}`;
@@ -50,16 +50,14 @@ export const authService = {
   async register(payload: { name: string; email: string; phone: string; password?: string }): Promise<ApiResponse<AuthResponseData>> {
     if (USE_MOCK) {
       await simulateDelay(450);
-      const email = payload.email.trim().toLowerCase();
-      const isAdmin = email === "admin@femora.test";
       const user: User = {
         id: `usr-${Date.now()}`,
         name: payload.name.trim(),
         email: payload.email.trim(),
         phone: payload.phone.trim(),
-        role: isAdmin ? "admin" : "customer",
+        role: "customer",
       };
-      const token = `mock-jwt-token-${isAdmin ? "admin" : "cust"}-${Date.now()}`;
+      const token = `mock-jwt-token-cust-${Date.now()}`;
       localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
       localStorage.setItem(STORAGE_KEY_TOKEN, token);
       return {
@@ -86,6 +84,11 @@ export const authService = {
       }
       try {
         const user = JSON.parse(raw) as User;
+        if (user.email?.toLowerCase() === "pooja.sharma@example.com" || user.id === "usr-pooja-1") {
+          localStorage.removeItem(STORAGE_KEY_USER);
+          localStorage.removeItem(STORAGE_KEY_TOKEN);
+          return { success: true, data: null, message: "No active session" };
+        }
         return { success: true, data: user, message: "User retrieved" };
       } catch {
         return { success: true, data: null };
@@ -104,7 +107,7 @@ export const authService = {
     if (USE_MOCK) {
       await simulateDelay(350);
       const raw = localStorage.getItem(STORAGE_KEY_USER);
-      const current = raw ? JSON.parse(raw) : { id: "usr-pooja-1", email: "pooja.sharma@example.com", role: "customer" };
+      const current = raw ? JSON.parse(raw) : { id: "", email: "", role: "customer" };
       const updated: User = {
         ...current,
         name: updates.name || current.name,

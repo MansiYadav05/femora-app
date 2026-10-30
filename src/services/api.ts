@@ -12,12 +12,25 @@ export const api = axios.create({
   timeout: 10000,
 });
 
+const GUEST_SESSION_KEY = "femora_guest_session";
+
+function getGuestSessionId(): string {
+  let guestId = localStorage.getItem(GUEST_SESSION_KEY);
+  if (!guestId) {
+    guestId = crypto.randomUUID();
+    localStorage.setItem(GUEST_SESSION_KEY, guestId);
+  }
+  return guestId;
+}
+
 // Interceptor for attaching auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("femora_auth_token");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else if (config.headers) {
+      config.headers["X-Guest-Session"] = getGuestSessionId();
     }
     return config;
   },

@@ -1,18 +1,18 @@
-import { Address, MOCK_ADDRESSES } from "../data/mockData";
+import { Address } from "../data/mockData";
 import { api, ApiResponse, simulateDelay, USE_MOCK } from "./api";
 
 const STORAGE_KEY_ADDRESSES = "femora_addresses";
 
 function getStoredAddresses(): Address[] {
   const raw = localStorage.getItem(STORAGE_KEY_ADDRESSES);
-  if (!raw) {
-    localStorage.setItem(STORAGE_KEY_ADDRESSES, JSON.stringify(MOCK_ADDRESSES));
-    return [...MOCK_ADDRESSES];
-  }
+  if (!raw) return [];
   try {
-    return JSON.parse(raw);
+    const stored = JSON.parse(raw) as Address[];
+    const addresses = stored.filter((address) => !["addr-1", "addr-2", "addr-3"].includes(address.id));
+    if (addresses.length !== stored.length) saveStoredAddresses(addresses);
+    return addresses;
   } catch {
-    return [...MOCK_ADDRESSES];
+    return [];
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ShieldCheck, ArrowRight, Lock, Mail, Sparkles, UserCheck } from "lucide-react";
+import { ShieldCheck, ArrowRight, Lock, Mail, Sparkles } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
@@ -41,14 +41,9 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleFillDemo = (type: "customer" | "admin") => {
-    if (type === "admin") {
-      setEmail("admin@femora.test");
-      setPassword("Admin@123");
-    } else {
-      setEmail("pooja.sharma@example.com");
-      setPassword("Password123");
-    }
+  const handleFillDemo = () => {
+    setEmail("admin@femora.test");
+    setPassword("Admin@123");
   };
 
   return (
@@ -150,21 +145,12 @@ export const Login: React.FC = () => {
           {/* Demo Fill Helper */}
           <div className="mt-8 pt-6 border-t border-maroon/10">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-muted mb-2 text-center">
-              Quick Demo Fill Buttons:
+              Admin Demo:
             </p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2">
               <button
                 type="button"
-                onClick={() => handleFillDemo("customer")}
-                className="px-3 py-1.5 rounded-lg border border-maroon/15 text-xs text-ink hover:bg-blush-bg/50 transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <UserCheck className="w-3.5 h-3.5 text-teal" />
-                <span>Customer Login</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleFillDemo("admin")}
+                onClick={handleFillDemo}
                 className="px-3 py-1.5 rounded-lg border border-maroon/15 text-xs text-maroon hover:bg-maroon hover:text-white transition-colors font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5 text-rose" />

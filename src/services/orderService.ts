@@ -1,18 +1,19 @@
-import { MOCK_ORDERS, Order, OrderStatus } from "../data/mockData";
+import { Order, OrderStatus } from "../data/mockData";
 import { api, ApiResponse, simulateDelay, USE_MOCK } from "./api";
 
 const STORAGE_KEY_ORDERS = "femora_orders";
 
 function getStoredOrders(): Order[] {
   const raw = localStorage.getItem(STORAGE_KEY_ORDERS);
-  if (!raw) {
-    localStorage.setItem(STORAGE_KEY_ORDERS, JSON.stringify(MOCK_ORDERS));
-    return [...MOCK_ORDERS];
-  }
+  if (!raw) return [];
   try {
-    return JSON.parse(raw);
+    const stored = JSON.parse(raw) as Order[];
+    const sampleOrderNumbers = new Set(["FEM-82914", "FEM-83002", "FEM-83115", "FEM-83240", "FEM-82450"]);
+    const orders = stored.filter((order) => !sampleOrderNumbers.has(order.orderNumber));
+    if (orders.length !== stored.length) saveStoredOrders(orders);
+    return orders;
   } catch {
-    return [...MOCK_ORDERS];
+    return [];
   }
 }
 

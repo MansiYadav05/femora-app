@@ -1,7 +1,6 @@
 import {
   Customer,
   MOCK_ADMIN_STATS,
-  MOCK_CUSTOMERS,
   Order,
   OrderStatus,
   Product,
@@ -170,7 +169,7 @@ export const adminService = {
       await simulateDelay(200);
       return {
         success: true,
-        data: MOCK_CUSTOMERS,
+        data: [],
         message: "Customers retrieved",
       };
     }

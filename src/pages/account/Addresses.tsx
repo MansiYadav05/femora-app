@@ -184,7 +184,7 @@ export const Addresses: React.FC = () => {
           <Input
             label="Full Name"
             required
-            placeholder="e.g. Pooja Sharma"
+            placeholder="Your full name"
             value={formData.fullName}
             onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
             error={errors.fullName}

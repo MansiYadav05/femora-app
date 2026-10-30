@@ -104,10 +104,6 @@ export const TrackOrder: React.FC = () => {
             </div>
           </form>
 
-          {/* Quick Demo Hint */}
-          <div className="mt-4 pt-4 border-t border-maroon/10 text-[11px] text-muted text-center">
-            Demo quick test: Order <strong className="text-maroon">FEM-82914</strong> or <strong className="text-maroon">FEM-83002</strong> with Phone <strong className="text-maroon">9876543210</strong>
-          </div>
         </div>
 
         {/* Results Card & Status Timeline */}

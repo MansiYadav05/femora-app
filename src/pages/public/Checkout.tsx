@@ -16,7 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 import { addressService } from "../../services/addressService";
 import { orderService } from "../../services/orderService";
 import { paymentService } from "../../services/paymentService";
-import { Address, MOCK_ADDRESSES } from "../../data/mockData";
+import { Address } from "../../data/mockData";
 import { AddressCard } from "../../components/order/AddressCard";
 import { PriceSummary } from "../../components/cart/PriceSummary";
 import { Breadcrumbs } from "../../components/common/Breadcrumbs";
@@ -83,10 +83,6 @@ export const Checkout: React.FC = () => {
         setAddresses(res.data);
         const def = res.data.find((a) => a.isDefault) || res.data[0];
         setSelectedAddress(def);
-      } else {
-        // Fallback to sample
-        setAddresses(MOCK_ADDRESSES);
-        setSelectedAddress(MOCK_ADDRESSES[0]);
       }
     });
   }, []);
@@ -221,22 +217,20 @@ export const Checkout: React.FC = () => {
                   key={s.num}
                   type="button"
                   onClick={() => s.num < currentStep && setCurrentStep(s.num as any)}
-                  className={`flex flex-col sm:flex-row items-center justify-center gap-2 p-2 rounded-xl transition-colors ${
-                    isCur
+                  className={`flex flex-col sm:flex-row items-center justify-center gap-2 p-2 rounded-xl transition-colors ${isCur
                       ? "text-maroon font-bold bg-blush-bg/60"
                       : isPast
-                      ? "text-teal-deep font-semibold cursor-pointer hover:bg-cream"
-                      : "text-muted/60"
-                  }`}
+                        ? "text-teal-deep font-semibold cursor-pointer hover:bg-cream"
+                        : "text-muted/60"
+                    }`}
                 >
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs ${
-                      isCur
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs ${isCur
                         ? "bg-maroon text-white"
                         : isPast
-                        ? "bg-teal-deep text-white"
-                        : "bg-maroon/10 text-muted"
-                    }`}
+                          ? "bg-teal-deep text-white"
+                          : "bg-maroon/10 text-muted"
+                      }`}
                   >
                     {isPast ? "✓" : s.num}
                   </div>
@@ -330,11 +324,10 @@ export const Checkout: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div
                       onClick={() => setDeliverySpeed("Standard")}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                        deliverySpeed === "Standard"
+                      className={`p-4 rounded-xl border cursor-pointer transition-all ${deliverySpeed === "Standard"
                           ? "border-maroon bg-cream ring-2 ring-maroon shadow-sm"
                           : "border-maroon/15 hover:border-maroon/30"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-semibold text-sm text-ink">Standard Discreet</span>
@@ -347,11 +340,10 @@ export const Checkout: React.FC = () => {
 
                     <div
                       onClick={() => setDeliverySpeed("Express")}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                        deliverySpeed === "Express"
+                      className={`p-4 rounded-xl border cursor-pointer transition-all ${deliverySpeed === "Express"
                           ? "border-maroon bg-cream ring-2 ring-maroon shadow-sm"
                           : "border-maroon/15 hover:border-maroon/30"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-semibold text-sm text-ink">Express Air Transit</span>
@@ -424,11 +416,10 @@ export const Checkout: React.FC = () => {
                     <div
                       key={pm.id}
                       onClick={() => setPaymentMethod(pm.id as any)}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                        paymentMethod === pm.id
+                      className={`p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === pm.id
                           ? "border-maroon bg-cream ring-2 ring-maroon shadow-sm"
                           : "border-maroon/15 hover:border-maroon/30"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <div>
@@ -597,7 +588,7 @@ export const Checkout: React.FC = () => {
           <Input
             label="Full Name"
             required
-            placeholder="e.g. Pooja Sharma"
+            placeholder="Your full name"
             value={newAddr.fullName}
             onChange={(e) => setNewAddr({ ...newAddr, fullName: e.target.value })}
             error={formErrors.fullName}

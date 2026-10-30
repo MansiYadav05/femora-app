@@ -10,8 +10,8 @@ import toast from "react-hot-toast";
 export const Profile: React.FC = () => {
   const { user, updateProfile } = useAuth();
 
-  const [name, setName] = useState(user?.name || "Pooja Sharma");
-  const [phone, setPhone] = useState(user?.phone || "9876543210");
+  const [name, setName] = useState(user?.name || "");
+  const [phone, setPhone] = useState(user?.phone || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
@@ -80,7 +80,7 @@ export const Profile: React.FC = () => {
                   label="Email Address"
                   type="email"
                   disabled
-                  value={user?.email || "pooja.sharma@example.com"}
+                  value={user?.email || ""}
                   helperText="Email is permanently linked to your order history."
                   leftIcon={<Mail className="w-4 h-4" />}
                 />

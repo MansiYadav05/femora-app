@@ -39,9 +39,9 @@ export const Dashboard: React.FC = () => {
     });
   }, []);
 
-  const maxSales = stats?.salesTrend7Days
-    ? Math.max(...stats.salesTrend7Days.map((d: any) => d.amount))
-    : 35000;
+  const maxSales = stats?.salesTrend7Days?.length
+    ? Math.max(...stats.salesTrend7Days.map((d: any) => d.amount), 1)
+    : 1;
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8">
@@ -52,7 +52,7 @@ export const Dashboard: React.FC = () => {
             Operations & Sales Dashboard
           </h1>
           <p className="text-xs text-muted mt-1">
-            Real-time mock analytics, packing queue, and inventory alerts.
+            Order activity, packing queue, and inventory alerts.
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
           <p className="text-2xl font-bold font-heading text-maroon tabular-nums">
-            {stats?.todayOrders || 18}
+            {stats?.todayOrders ?? 0}
           </p>
           <span className="text-[11px] text-teal-deep font-medium">All with plain packaging</span>
         </div>
@@ -99,9 +99,9 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
           <p className="text-2xl font-bold font-heading text-maroon tabular-nums">
-            {formatPrice(stats?.todayRevenue || 22450)}
+            {formatPrice(stats?.todayRevenue ?? 0)}
           </p>
-          <span className="text-[11px] text-teal-deep font-medium">+14% vs yesterday</span>
+          <span className="text-[11px] text-muted font-medium">Confirmed payments</span>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
@@ -114,7 +114,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
           <p className="text-2xl font-bold font-heading text-amber-700 tabular-nums">
-            {stats?.pendingOrders || 7}
+            {stats?.pendingOrders ?? 0}
           </p>
           <span className="text-[11px] text-amber-800 font-medium">Awaiting courier dispatch</span>
         </div>
@@ -129,7 +129,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
           <p className="text-2xl font-bold font-heading text-rose tabular-nums">
-            {stats?.lowStockItems || 3}
+            {stats?.lowStockItems ?? 0}
           </p>
           <span className="text-[11px] text-rose font-medium">&le; 25 units remaining</span>
         </div>
@@ -145,7 +145,7 @@ export const Dashboard: React.FC = () => {
             <p className="text-xs text-muted">Daily gross store sales in Indian Rupees</p>
           </div>
           <span className="text-xs font-bold text-teal-deep px-2.5 py-1 rounded bg-teal/10">
-            Total 7D: {formatPrice(174650)}
+            Total 7D: {formatPrice(stats?.salesTrend7Days?.reduce((total: number, item: any) => total + item.amount, 0) ?? 0)}
           </span>
         </div>
 
@@ -163,11 +163,10 @@ export const Dashboard: React.FC = () => {
                   </span>
                   <div className="w-full max-w-[48px] bg-slate-100 rounded-t-xl h-full flex items-end overflow-hidden p-0.5">
                     <div
-                      className={`w-full rounded-t-lg transition-all duration-500 ${
-                        isToday
+                      className={`w-full rounded-t-lg transition-all duration-500 ${isToday
                           ? "bg-rose-button group-hover:bg-rose"
                           : "bg-maroon/70 group-hover:bg-maroon"
-                      }`}
+                        }`}
                       style={{ height: `${heightPercent}%` }}
                     />
                   </div>

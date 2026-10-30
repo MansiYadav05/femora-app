@@ -104,7 +104,7 @@ export const Register: React.FC = () => {
             <Input
               label="Full Name"
               required
-              placeholder="e.g. Pooja Sharma"
+              placeholder="Your full name"
               leftIcon={<User className="w-4 h-4" />}
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -151,9 +151,8 @@ export const Register: React.FC = () => {
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-muted">Password strength:</span>
                     <span
-                      className={`font-semibold ${
-                        pwdStrength.score >= 2 ? "text-teal-deep" : "text-amber-600"
-                      }`}
+                      className={`font-semibold ${pwdStrength.score >= 2 ? "text-teal-deep" : "text-amber-600"
+                        }`}
                     >
                       {pwdStrength.label}
                     </span>
@@ -162,15 +161,14 @@ export const Register: React.FC = () => {
                     {[1, 2, 3].map((step) => (
                       <div
                         key={step}
-                        className={`h-full flex-1 rounded-full ${
-                          step <= pwdStrength.score
+                        className={`h-full flex-1 rounded-full ${step <= pwdStrength.score
                             ? step === 1
                               ? "bg-rose"
                               : step === 2
-                              ? "bg-amber-400"
-                              : "bg-teal-deep"
+                                ? "bg-amber-400"
+                                : "bg-teal-deep"
                             : "bg-transparent"
-                        }`}
+                          }`}
                       />
                     ))}
                   </div>

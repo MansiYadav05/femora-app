@@ -1,4 +1,4 @@
-import { ApiResponse, simulateDelay, USE_MOCK } from "./api";
+import { api, ApiResponse, simulateDelay, USE_MOCK } from "./api";
 
 export interface PaymentIntent {
   paymentId: string;
@@ -32,17 +32,8 @@ export const paymentService = {
       };
     }
 
-    return {
-      success: true,
-      data: {
-        paymentId: `PAY-${Date.now()}`,
-        amount: params.amount,
-        currency: "INR",
-        method: params.method,
-        status: "completed",
-      },
-      message: "Payment processed",
-    };
+    const res = await api.post<ApiResponse<PaymentIntent>>("/payments", params);
+    return res.data;
   },
 
   async verifyPayment(paymentId: string): Promise<ApiResponse<{ verified: boolean }>> {
@@ -55,10 +46,7 @@ export const paymentService = {
       };
     }
 
-    return {
-      success: true,
-      data: { verified: true },
-      message: "Payment verified",
-    };
+    const res = await api.get<ApiResponse<{ verified: boolean }>>(`/payments/${paymentId}/verify`);
+    return res.data;
   },
 };
