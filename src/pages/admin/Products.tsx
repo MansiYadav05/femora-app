@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Search, Eye, EyeOff, Edit, Sparkles, Filter } from "lucide-react";
+import { Plus, Search, Eye, EyeOff, Edit, Sparkles, Filter, Download } from "lucide-react";
 import { productService } from "../../services/productService";
 import { adminService } from "../../services/adminService";
 import { Product } from "../../data/mockData";
@@ -8,6 +8,7 @@ import { CATEGORIES } from "../../utils/constants";
 import { formatPrice } from "../../utils/formatPrice";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
+import { downloadProductsCsv } from "../../utils/exportProductsCsv";
 import toast from "react-hot-toast";
 
 export const Products: React.FC = () => {
@@ -51,6 +52,11 @@ export const Products: React.FC = () => {
     return matchesCat && matchesSearch;
   });
 
+  const handleExportCsv = () => {
+    downloadProductsCsv(filtered);
+    toast.success(`Exported ${filtered.length} product(s) to CSV`);
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       {/* Top Header */}
@@ -64,11 +70,22 @@ export const Products: React.FC = () => {
           </p>
         </div>
 
-        <Link to="/admin/products/new">
-          <Button variant="primary" size="md" leftIcon={<Plus className="w-4 h-4" />}>
-            Add New Product
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            variant="outline"
+            size="md"
+            leftIcon={<Download className="w-4 h-4" />}
+            onClick={handleExportCsv}
+            disabled={loading || filtered.length === 0}
+          >
+            Export CSV
           </Button>
-        </Link>
+          <Link to="/admin/products/new">
+            <Button variant="primary" size="md" leftIcon={<Plus className="w-4 h-4" />}>
+              Add New Product
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
@@ -124,9 +141,8 @@ export const Products: React.FC = () => {
                 return (
                   <tr
                     key={product.id}
-                    className={`hover:bg-slate-50/80 transition-colors ${
-                      isHidden ? "opacity-60 bg-slate-50/50" : ""
-                    }`}
+                    className={`hover:bg-slate-50/80 transition-colors ${isHidden ? "opacity-60 bg-slate-50/50" : ""
+                      }`}
                   >
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2">
@@ -191,11 +207,10 @@ export const Products: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleToggleHide(product)}
-                          className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                            isHidden
+                          className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${isHidden
                               ? "border-teal/30 text-teal-deep hover:bg-teal/10"
                               : "border-slate-200 text-muted hover:text-rose hover:bg-rose/10"
-                          }`}
+                            }`}
                           title={isHidden ? "Unhide product" : "Hide product"}
                         >
                           {isHidden ? (
